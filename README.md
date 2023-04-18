@@ -2,6 +2,13 @@
 
 # StPageFlip
 
+#### Originally forked from https://nodlik.github.io/StPageFlip/ and modified to my company's needs. Since that repo is dead, I just forked it and modified things to my hearts content. You're welcome to use it but be aware that I will not do maintain this actively. If anyone wants to contribute anything to this version, just let me know.
+
+- **Allow soft pages for cover and back, which was not possible in original version.**
+- **Removed everything related to image pages, only keeping the HTML part.**
+
+---
+
 Powerful, simple, and flexible JS Library for creating realistic and beautiful page turning effect.
 
 ![](video.gif)

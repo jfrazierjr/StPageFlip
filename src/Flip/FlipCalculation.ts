@@ -32,7 +32,6 @@ export class FlipCalculation {
     constructor(
         private direction: FlipDirection,
         private corner: FlipCorner,
-
         pageWidth: string,
         pageHeight: string
     ) {
@@ -42,9 +41,9 @@ export class FlipCalculation {
 
     /**
      * The main calculation method
-     * 
+     *
      * @param {Point} localPos - Touch Point Coordinates (relative active page!)
-     * 
+     *
      * @returns {boolean} True - if the calculations were successful, false if errors occurred
      */
     public calc(localPos: Point): boolean {
@@ -61,8 +60,35 @@ export class FlipCalculation {
     }
 
     /**
+     * Get the crop area for the page that will be duplicated and flipped.
+     *
+     * @returns {Point[]} Polygon page
+     */
+    public getCurrentClipArea(): Point[] {
+        const result = [];
+
+        const startPoint =
+            this.topIntersectPoint !== null ? this.topIntersectPoint : { x: this.pageWidth, y: 0 };
+
+        result.push(startPoint);
+        result.push({ x: 0, y: 0 });
+        result.push({ x: 0, y: this.pageHeight });
+        result.push(
+            this.bottomIntersectPoint
+                ? this.bottomIntersectPoint
+                : { x: this.pageWidth, y: this.pageHeight }
+        );
+        if (this.sideIntersectPoint) {
+            result.push(this.sideIntersectPoint);
+        }
+        result.push(startPoint);
+
+        return result;
+    }
+
+    /**
      * Get the crop area for the flipping page
-     * 
+     *
      * @returns {Point[]} Polygon page
      */
     public getFlippingClipArea(): Point[] {
@@ -91,7 +117,7 @@ export class FlipCalculation {
 
     /**
      * Get the crop area for the page that is below the page to be flipped
-     * 
+     *
      * @returns {Point[]} Polygon page
      */
     public getBottomClipArea(): Point[] {
@@ -177,7 +203,7 @@ export class FlipCalculation {
     public getFlippingProgress(): number {
         return Math.abs(((this.position.x - this.pageWidth) / (2 * this.pageWidth)) * 100);
     }
-    
+
     /**
      * Get flipping corner position (top, bottom)
      */
@@ -272,7 +298,6 @@ export class FlipCalculation {
 
         return angle;
     }
-
 
     private getPageRect(localPos: Point): RectPoints {
         if (this.corner === FlipCorner.TOP) {

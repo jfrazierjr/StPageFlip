@@ -1,12 +1,9 @@
 import { PageCollection } from './Collection/PageCollection';
-import { ImagePageCollection } from './Collection/ImagePageCollection';
 import { HTMLPageCollection } from './Collection/HTMLPageCollection';
 import { PageRect, Point } from './BasicTypes';
 import { Flip, FlipCorner, FlippingState } from './Flip/Flip';
 import { Orientation, Render } from './Render/Render';
-import { CanvasRender } from './Render/CanvasRender';
 import { HTMLUI } from './UI/HTMLUI';
-import { CanvasUI } from './UI/CanvasUI';
 import { Helper } from './Helper';
 import { Page } from './Page/Page';
 import { EventObject } from './Event/EventObject';
@@ -66,36 +63,6 @@ export class PageFlip extends EventObject {
     }
 
     /**
-     * Load pages from images on the Canvas mode
-     *
-     * @param {string[]} imagesHref - List of paths to images
-     */
-    public loadFromImages(imagesHref: string[]): void {
-        this.ui = new CanvasUI(this.block, this, this.setting);
-
-        const canvas = (this.ui as CanvasUI).getCanvas();
-        this.render = new CanvasRender(this, this.setting, canvas);
-
-        this.flipController = new Flip(this.render, this);
-
-        this.pages = new ImagePageCollection(this, this.render, imagesHref);
-        this.pages.load();
-
-        this.render.start();
-
-        this.pages.show(this.setting.startPage);
-
-        // safari fix
-        setTimeout(() => {
-            this.ui.update();
-            this.trigger('init', this, {
-                page: this.setting.startPage,
-                mode: this.render.getOrientation(),
-            });
-        }, 1);
-    }
-
-    /**
      * Load pages from HTML elements on the HTML mode
      *
      * @param {(NodeListOf<HTMLElement>|HTMLElement[])} items - List of pages as HTML Element
@@ -122,25 +89,6 @@ export class PageFlip extends EventObject {
                 mode: this.render.getOrientation(),
             });
         }, 1);
-    }
-
-    /**
-     * Update current pages from images
-     *
-     * @param {string[]} imagesHref - List of paths to images
-     */
-    public updateFromImages(imagesHref: string[]): void {
-        const current = this.pages.getCurrentPageIndex();
-
-        this.pages.destroy();
-        this.pages = new ImagePageCollection(this, this.render, imagesHref);
-        this.pages.load();
-
-        this.pages.show(current);
-        this.trigger('update', this, {
-            page: current,
-            mode: this.render.getOrientation(),
-        });
     }
 
     /**

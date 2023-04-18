@@ -1,6 +1,6 @@
 import { Orientation, Render } from './Render';
 import { PageFlip } from '../PageFlip';
-import { FlipDirection } from '../Flip/Flip';
+import { FlipDirection, FlippingState } from '../Flip/Flip';
 import { PageDensity, PageOrientation } from '../Page/Page';
 import { HTMLPage } from '../Page/HTMLPage';
 import { Helper } from '../Helper';
@@ -39,10 +39,10 @@ export class HTMLRender extends Render {
     private createShadows(): void {
         this.element.insertAdjacentHTML(
             'beforeend',
-            `<div class="stf__outerShadow"></div>
-             <div class="stf__innerShadow"></div>
-             <div class="stf__hardShadow"></div>
-             <div class="stf__hardInnerShadow"></div>`
+            `<div class='stf__outerShadow'></div>
+             <div class='stf__innerShadow'></div>
+             <div class='stf__hardShadow'></div>
+             <div class='stf__hardInnerShadow'></div>`
         );
 
         this.outerShadow = this.element.querySelector('.stf__outerShadow');
@@ -195,6 +195,12 @@ export class HTMLRender extends Render {
             -webkit-clip-path: ${polygon};
         `;
 
+        // this.element.style.clipPath = polygon;
+        // `
+        //     clip-path: ${polygon};
+        //     -webkit-clip-path: ${polygon};
+        // `;
+
         this.innerShadow.style.cssText = newStyle;
     }
 
@@ -279,7 +285,10 @@ export class HTMLRender extends Render {
             this.leftPage.setHardDrawingAngle(180 + this.flippingPage.getHardAngle());
             this.leftPage.draw(this.flippingPage.getDrawingDensity());
         } else {
-            this.leftPage.simpleDraw(PageOrientation.LEFT);
+            this.leftPage.simpleDraw(
+                PageOrientation.LEFT,
+                this.app.getState() !== FlippingState.READ
+            );
         }
     }
 
@@ -301,7 +310,10 @@ export class HTMLRender extends Render {
             this.rightPage.setHardDrawingAngle(180 + this.flippingPage.getHardAngle());
             this.rightPage.draw(this.flippingPage.getDrawingDensity());
         } else {
-            this.rightPage.simpleDraw(PageOrientation.RIGHT);
+            this.rightPage.simpleDraw(
+                PageOrientation.RIGHT,
+                this.app.getState() !== FlippingState.READ
+            );
         }
     }
 

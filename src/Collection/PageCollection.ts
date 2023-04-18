@@ -58,16 +58,15 @@ export abstract class PageCollection {
 
         let start = 0;
         if (this.isShowCover) {
-            this.pages[0].setDensity(PageDensity.HARD);
             this.landscapeSpread.push([start]);
             start++;
         }
 
         for (let i = start; i < this.pages.length; i += 2) {
-            if (i < this.pages.length - 1) this.landscapeSpread.push([i, i + 1]);
-            else {
+            if (i < this.pages.length - 1) {
+                this.landscapeSpread.push([i, i + 1]);
+            } else {
                 this.landscapeSpread.push([i]);
-                this.pages[i].setDensity(PageDensity.HARD);
             }
         }
     }
@@ -146,6 +145,21 @@ export abstract class PageCollection {
         if (idx > 0) return this.pages[idx - 1];
 
         return null;
+    }
+
+    /**
+     * Get Next page at the time of flipping
+     *
+     * @param {FlipDirection}  direction
+     */
+    public getCurrentPage(direction: FlipDirection): Page {
+        const current = this.currentSpreadIndex;
+
+        const spread = this.getSpread()[current];
+
+        if (spread.length === 1) return this.pages[spread[0]];
+
+        return direction === FlipDirection.FORWARD ? this.pages[spread[1]] : this.pages[spread[0]];
     }
 
     /**

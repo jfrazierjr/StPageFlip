@@ -1,3 +1,4 @@
+import { HTMLPage } from '../Page/HTMLPage';
 import { Orientation, Render } from '../Render/Render';
 import { PageFlip } from '../PageFlip';
 import { Helper } from '../Helper';
@@ -45,6 +46,7 @@ export class Flip {
     private readonly render: Render;
     private readonly app: PageFlip;
 
+    private currentPage: Page;
     private flippingPage: Page = null;
     private bottomPage: Page = null;
 
@@ -63,11 +65,17 @@ export class Flip {
      * @param globalPos - Touch Point Coordinates (relative window)
      */
     public fold(globalPos: Point): void {
-        this.setState(FlippingState.USER_FOLD);
+        let didStart = this.calc !== null;
 
         // If the process has not started yet
-        if (this.calc === null) this.start(globalPos);
+        if (this.calc === null) {
+            didStart = this.start(globalPos);
+        }
 
+        /**
+         * Only start the folding if we indeed have a calc
+         */
+        if (didStart) this.setState(FlippingState.USER_FOLD);
         this.do(this.render.convertToPage(globalPos));
     }
 
@@ -130,6 +138,7 @@ export class Flip {
         if (!this.checkDirection(direction)) return false;
 
         try {
+            this.currentPage = this.app.getPageCollection().getCurrentPage(direction);
             this.flippingPage = this.app.getPageCollection().getFlippingPage(direction);
             this.bottomPage = this.app.getPageCollection().getBottomPage(direction);
 
@@ -181,6 +190,11 @@ export class Flip {
         if (this.calc.calc(pagePos)) {
             // Perform calculations for a specific position
             const progress = this.calc.getFlippingProgress();
+
+            this.currentPage.setArea(this.calc.getCurrentClipArea());
+            this.currentPage.setPosition(this.calc.getBottomPagePosition());
+            this.currentPage.setAngle(0);
+            this.currentPage.setHardAngle(0);
 
             this.bottomPage.setArea(this.calc.getBottomClipArea());
             this.bottomPage.setPosition(this.calc.getBottomPagePosition());
@@ -362,13 +376,6 @@ export class Flip {
     }
 
     /**
-     * Get the current calculations object
-     */
-    public getCalculation(): FlipCalculation {
-        return this.calc;
-    }
-
-    /**
      * Get current flipping state
      */
     public getState(): FlippingState {
@@ -415,6 +422,7 @@ export class Flip {
         this.calc = null;
         this.flippingPage = null;
         this.bottomPage = null;
+        this.currentPage = null;
     }
 
     private getBoundsRect(): PageRect {

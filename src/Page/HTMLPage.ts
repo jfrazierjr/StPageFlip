@@ -131,25 +131,60 @@ export class HTMLPage extends Page {
         this.element.style.cssText = newStyle;
     }
 
-    public simpleDraw(orient: PageOrientation): void {
+    public simpleDraw(orient: PageOrientation, doClip = false): void {
         const rect = this.render.getRect();
 
         const pageWidth = rect.pageWidth;
         const pageHeight = rect.height;
 
         const x = orient === PageOrientation.RIGHT ? rect.left + rect.pageWidth : rect.left;
-
         const y = rect.top;
 
+        let clipPolygon: string | undefined = undefined;
+
+        const clipMe =
+            doClip &&
+            (this.render.getDirection() === FlipDirection.FORWARD
+                ? orient === PageOrientation.RIGHT
+                : orient === PageOrientation.LEFT);
+
+        if (clipMe) {
+            clipPolygon = 'polygon( ';
+            for (const p of this.state.area) {
+                if (p !== null) {
+                    let g =
+                        this.render.getDirection() === FlipDirection.BACK
+                            ? {
+                                  x: -p.x + this.state.position.x,
+                                  y: p.y - this.state.position.y,
+                              }
+                            : {
+                                  x: p.x - this.state.position.x,
+                                  y: p.y - this.state.position.y,
+                              };
+
+                    g = Helper.GetRotatedPoint(g, { x: 0, y: 0 }, this.state.angle);
+                    clipPolygon += g.x + 'px ' + g.y + 'px, ';
+                }
+            }
+            clipPolygon = clipPolygon.slice(0, -2);
+            clipPolygon += ')';
+        }
+
         this.element.classList.add('--simple');
-        this.element.style.cssText = `
+        let styles = `
             position: absolute; 
             display: block; 
             height: ${pageHeight}px; 
             left: ${x}px; 
             top: ${y}px; 
             width: ${pageWidth}px; 
-            z-index: ${this.render.getSettings().startZIndex + 1};`;
+            z-index: ${this.render.getSettings().startZIndex + 1};
+        `;
+        if (clipPolygon) {
+            styles += `clip-path: ${clipPolygon}; -webkit-clip-path: ${clipPolygon};`;
+        }
+        this.element.style.cssText = styles;
     }
 
     public getElement(): HTMLElement {
