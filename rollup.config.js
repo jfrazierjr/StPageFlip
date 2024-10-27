@@ -1,6 +1,6 @@
 import typescript from 'rollup-plugin-typescript2';
 import postcss from 'rollup-plugin-postcss';
-import { terser } from 'rollup-plugin-terser';
+//import { terser } from 'rollup-plugin-terser';
 
 export default [
     {
@@ -9,7 +9,7 @@ export default [
         plugins: [
             postcss(),
             typescript({ tsconfig: 'tsconfig.json', useTsconfigDeclarationDir: true }),
-            terser(),
+            //terser(),
         ],
     },
     {
@@ -18,7 +18,7 @@ export default [
         plugins: [
             postcss(),
             typescript({ tsconfig: 'tsconfig.json', useTsconfigDeclarationDir: true }),
-            terser(),
+            //terser(),
         ],
     },
 ];
