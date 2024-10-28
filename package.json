@@ -14,6 +14,7 @@
   "publishConfig": {},
   "homepage": "https://nodlik.github.io/StPageFlip/",
   "devDependencies": {
+    "@rollup/plugin-terser": "^0.4.4",
     "@typescript-eslint/eslint-plugin": "^8.11.0",
     "@typescript-eslint/parser": "^8.11.0",
     "css-loader": "^3.5.3",
@@ -34,7 +35,8 @@
     "eslint": "eslint . --ext .ts",
     "build-global": "npx webpack",
     "start": "rollup -c --watch",
-    "build": "rollup -c"
+    "build": "rollup -c",
+    "lite": "lite-server --port=8080"
   },
   "keywords": [
     "typescript",
@@ -49,5 +51,8 @@
   ],
   "bugs": {
     "url": "https://github.com/Nodlik/StPageFlip/issues"
+  },
+  "dependencies": {
+    "lite-server": "^2.6.1"
   }
 }
