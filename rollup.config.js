@@ -5,7 +5,7 @@ import postcss from 'rollup-plugin-postcss';
 export default [
     {
         input: 'src/PageFlip.ts',
-        output: [{ file: 'dist/js/page-flip.browser.js', format: 'umd', name: 'St' }],
+        output: [{ file: 'dist/js/page-flip.module.mjs', format: 'es' }],
         plugins: [
             postcss(),
             typescript({ tsconfig: 'tsconfig.json', useTsconfigDeclarationDir: true }),
@@ -14,7 +14,7 @@ export default [
     },
     {
         input: 'src/PageFlip.ts',
-        output: [{ file: 'dist/js/page-flip.module.js', format: 'es' }],
+        output: [{ file: 'examples/js/page-flip.module.mjs', format: 'es' }],
         plugins: [
             postcss(),
             typescript({ tsconfig: 'tsconfig.json', useTsconfigDeclarationDir: true }),

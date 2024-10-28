@@ -1,4 +1,4 @@
-import { PageFlip } from "../dist/js/page-flip.module.mjs";
+import { PageFlip } from "/js/page-flip.module.mjs";
 
 document.addEventListener('DOMContentLoaded', function() {
 
@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', function() {
             width: 500, // base page width
             height: 700, // base page height
 
-            size: "fixed", //"stretch",
+            size: "stretch", //"stretch",
             // set threshold values:
             //minWidth: 315,
             //maxWidth: 1000,
