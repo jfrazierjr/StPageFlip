@@ -1,7 +1,7 @@
 /**
  * Type representing a point on a plane
  */
-export interface Point {
+export type Point ={
     x: number;
     y: number;
 }
@@ -9,7 +9,7 @@ export interface Point {
 /**
  * Type representing a coordinates of the rectangle on the plane
  */
-export interface RectPoints {
+export type RectPoints ={
     /** Coordinates of the top left corner */
     topLeft: Point;
     /** Coordinates of the top right corner */
@@ -23,7 +23,7 @@ export interface RectPoints {
 /**
  * Type representing a rectangle
  */
-export interface Rect {
+export type Rect = {
     left: number;
     top: number;
     width: number;
@@ -33,7 +33,7 @@ export interface Rect {
 /**
  * Type representing a book area
  */
-export interface PageRect {
+export type PageRect ={
     left: number;
     top: number;
     width: number;

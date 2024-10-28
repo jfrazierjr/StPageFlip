@@ -8,6 +8,11 @@ export const enum SizeType {
     STRETCH = 'stretch',
 }
 
+export const enum BookType {
+    DOUBLE = 'double',
+    SINGLE = 'single'
+}
+
 /**
  * Configuration object
  */
@@ -16,6 +21,7 @@ export interface FlipSetting {
     startPage: number;
     /** Whether the book will be stretched under the parent element or not */
     size: SizeType;
+    bookType: BookType;
 
     width: number;
     height: number;
@@ -63,6 +69,7 @@ export class Settings {
     private _default: FlipSetting = {
         startPage: 0,
         size: SizeType.FIXED,
+        bookType: BookType.DOUBLE,
         width: 0,
         height: 0,
         minWidth: 0,

@@ -4,4 +4,3 @@ dist/*
 .vscode/*
 package-lock.json
 yarn.lock
-examples/*
