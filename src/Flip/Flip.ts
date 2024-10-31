@@ -441,7 +441,7 @@ export class Flip {
         const rect = this.getBoundsRect();
         const pageWidth = rect.pageWidth;
 
-        const operatingDistance = Math.sqrt(Math.pow(pageWidth, 2) + Math.pow(rect.height, 2)) / 5;
+        const operatingDistance = Math.sqrt(Math.pow(pageWidth, 2) + Math.pow(rect.height, 2)) / 30;
 
         const bookPos = this.render.convertToBook(globalPos);
 

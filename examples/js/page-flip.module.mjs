@@ -1371,7 +1371,7 @@ class Flip {
     isPointOnCorners(globalPos) {
         const rect = this.getBoundsRect();
         const pageWidth = rect.pageWidth;
-        const operatingDistance = Math.sqrt(Math.pow(pageWidth, 2) + Math.pow(rect.height, 2)) / 5;
+        const operatingDistance = Math.sqrt(Math.pow(pageWidth, 2) + Math.pow(rect.height, 2)) / 30;
         const bookPos = this.render.convertToBook(globalPos);
         return (bookPos.x > 0 &&
             bookPos.y > 0 &&
@@ -1401,6 +1401,20 @@ class UI {
         };
         this.onMouseDown = (e) => {
             if (this.checkTarget(e.target)) {
+                // TODO - add if(any clickEventClasses)
+                if (this.app.getSettings().clickEventClasses.some) {
+                    var targetClassList = Array.from(e.target.classList);
+                    if (targetClassList.some((value) => value.includes('prev'))) {
+                        this.app.flipNext();
+                        //e.preventDefault();
+                        return;
+                    }
+                    if (targetClassList.some((value) => value.includes('next'))) {
+                        this.app.flipPrev();
+                        //e.preventDefault();
+                        return;
+                    }
+                }
                 const pos = this.getMousePos(e.clientX, e.clientY);
                 this.app.startUserTouch(pos);
                 e.preventDefault();
@@ -1588,13 +1602,9 @@ class UI {
             y: y - rect.top,
         };
     }
-    checkTarget(targer) {
-        if (!this.app.getSettings().clickEventForward)
-            return true;
-        if (['a', 'button'].includes(targer.tagName.toLowerCase())) {
-            return false;
-        }
-        return true;
+    checkTarget(target) {
+        return (!this.app.getSettings().clickEventForward ||
+            Array.from(target.classList).some((value) => this.app.getSettings().clickEventClasses.includes(value)));
     }
 }
 
@@ -2346,6 +2356,7 @@ class Settings {
             useMouseEvents: true,
             showPageCorners: true,
             disableFlipByClick: false,
+            clickEventClasses: [],
         };
     }
     /**
@@ -2410,7 +2421,7 @@ function styleInject(css, ref) {
   }
 }
 
-var css_248z = ".stf__parent {\r\n    position: relative;\r\n    display: block;\r\n    box-sizing: border-box;\r\n    transform: translateZ(0);\r\n\r\n    -ms-touch-action: pan-y;\r\n    touch-action: pan-y;\r\n}\r\n\r\n.sft__wrapper {\r\n    position: relative;\r\n    width: 100%;\r\n    box-sizing: border-box;\r\n}\r\n\r\n.stf__parent canvas {\r\n    position: absolute;\r\n    width: 100%;\r\n    height: 100%;\r\n    left: 0;\r\n    top: 0;\r\n}\r\n\r\n.stf__block {\r\n    position: absolute;\r\n    width: 100%;\r\n    height: 100%;\r\n    box-sizing: border-box;\r\n    perspective: 2000px;\r\n}\r\n\r\n.stf__item {\r\n    display: none;\r\n    position: absolute;\r\n    transform-style: preserve-3d;\r\n}\r\n\r\n.stf__outerShadow {\r\n    position: absolute;\r\n    left: 0;\r\n    top: 0;\r\n}\r\n\r\n.stf__innerShadow {\r\n    position: absolute;\r\n    left: 0;\r\n    top: 0;\r\n}\r\n\r\n.stf__hardShadow {\r\n    position: absolute;\r\n    left: 0;\r\n    top: 0;\r\n}\r\n\r\n.stf__hardInnerShadow {\r\n    position: absolute;\r\n    left: 0;\r\n    top: 0;\r\n}\r\n";
+var css_248z = ".stf__parent {\r\n    position: relative;\r\n    display: block;\r\n    box-sizing: border-box;\r\n    transform: translateZ(0);\r\n\r\n    -ms-touch-action: pan-y;\r\n    touch-action: pan-y;\r\n}\r\n\r\n.stf__wrapper {\r\n    position: relative;\r\n    width: 100%;\r\n    box-sizing: border-box;\r\n}\r\n\r\n.stf__parent canvas {\r\n    position: absolute;\r\n    width: 100%;\r\n    height: 100%;\r\n    left: 0;\r\n    top: 0;\r\n}\r\n\r\n.stf__block {\r\n    position: absolute;\r\n    width: 100%;\r\n    height: 100%;\r\n    box-sizing: border-box;\r\n    perspective: 2000px;\r\n}\r\n\r\n.stf__item {\r\n    display: none;\r\n    position: absolute;\r\n    transform-style: preserve-3d;\r\n}\r\n\r\n.stf__outerShadow {\r\n    position: absolute;\r\n    left: 0;\r\n    top: 0;\r\n}\r\n\r\n.stf__innerShadow {\r\n    position: absolute;\r\n    left: 0;\r\n    top: 0;\r\n}\r\n\r\n.stf__hardShadow {\r\n    position: absolute;\r\n    left: 0;\r\n    top: 0;\r\n}\r\n\r\n.stf__hardInnerShadow {\r\n    position: absolute;\r\n    left: 0;\r\n    top: 0;\r\n}\r\n";
 styleInject(css_248z);
 
 /**

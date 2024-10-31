@@ -10,7 +10,7 @@ export const enum SizeType {
 
 export const enum BookType {
     DOUBLE = 'double',
-    SINGLE = 'single'
+    SINGLE = 'single',
 }
 
 /**
@@ -63,6 +63,8 @@ export interface FlipSetting {
 
     /** if this value is true, flipping by clicking on the whole book will be locked. Only on corners */
     disableFlipByClick: boolean;
+
+    clickEventClasses: Array<string>;
 }
 
 export class Settings {
@@ -89,6 +91,7 @@ export class Settings {
         useMouseEvents: true,
         showPageCorners: true,
         disableFlipByClick: false,
+        clickEventClasses: [],
     };
 
     /**

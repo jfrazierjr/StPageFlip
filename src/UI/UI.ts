@@ -166,18 +166,31 @@ export abstract class UI {
         };
     }
 
-    private checkTarget(targer: EventTarget): boolean {
-        if (!this.app.getSettings().clickEventForward) return true;
-
-        if (['a', 'button'].includes((targer as HTMLElement).tagName.toLowerCase())) {
-            return false;
-        }
-
-        return true;
+    private checkTarget(target: EventTarget): boolean {
+        return (
+            !this.app.getSettings().clickEventForward ||
+            Array.from((target as HTMLElement).classList).some((value) =>
+                this.app.getSettings().clickEventClasses.includes(value)
+            )
+        );
     }
 
     private onMouseDown = (e: MouseEvent): void => {
         if (this.checkTarget(e.target)) {
+            // TODO - add if(any clickEventClasses)
+            if (this.app.getSettings().clickEventClasses.some) {
+                var targetClassList = Array.from((e.target as HTMLElement).classList);
+                if (targetClassList.some((value) => value.includes('prev'))) {
+                    this.app.flipNext();
+                    //e.preventDefault();
+                    return;
+                }
+                if (targetClassList.some((value) => value.includes('next'))) {
+                    this.app.flipPrev();
+                    //e.preventDefault();
+                    return;
+                }
+            }
             const pos = this.getMousePos(e.clientX, e.clientY);
 
             this.app.startUserTouch(pos);
