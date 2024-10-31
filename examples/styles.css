@@ -1,22 +1,22 @@
-.page.page-cover .page-arrow-left.page-nav:hover {
+.page .page-arrow-left.page-nav:hover {
     opacity: 1;
     transition: opacity 1s;
     background-color: red;
 }
 
-.page.page-cover .page-arrow-right.page-nav:hover {
+.page .page-arrow-right.page-nav:hover {
     opacity: 1;
     transition: opacity 1s;
     background-color: red;
 }
 
-.page.page-cover .page-arrow-right.page-nav {
+.page .page-arrow-right.page-nav {
     background: black;
     z-index: 10;
-    -webkit-mask-image: url('./images/nav/arrow_in_circle_right_mask.webp');
+    -webkit-mask-image: url('./img/nav/arrow_in_circle_right_mask.webp');
     -webkit-mask-size: 32px 32px;
     -webkit-mask-repeat: no-repeat;
-    mask-image: url('./images/nav/arrow_in_circle_right_mask.webp');
+    mask-image: url('./img/nav/arrow_in_circle_right_mask.webp');
     mask-size: 32px;
     mask-repeat: no-repeat;
     mask-position: center;
@@ -33,12 +33,12 @@
     bottom: 10px;
 }
 
-.page.page-cover .page-arrow-left.page-nav {
+.page .page-arrow-left.page-nav {
     background: black;
-    -webkit-mask-image: url('./images/nav/arrow_in_circle_left_mask.webp');
+    -webkit-mask-image: url('./img/nav/arrow_in_circle_left_mask.webp');
     -webkit-mask-size: 32px 32px;
     -webkit-mask-repeat: no-repeat;
-    mask-image: url('./images/nav/arrow_in_circle_left_mask.webp');
+    mask-image: url('./img/nav/arrow_in_circle_left_mask.webp');
     mask-size: 32px;
     mask-repeat: no-repeat;
     mask-position: center;
@@ -51,9 +51,20 @@
     margin-bottom: 0px;
     margin-right: auto;
     margin-left: 0px;
-
     left: 10px;
     bottom: 10px;
+}
+
+.page.page-cover .page-arrow-left.page-nav {
+    display: none;
+}
+
+.page.--left .page-arrow-right.page-nav {
+    display: none;
+}
+
+.page.--right .page-arrow-left.page-nav {
+    display: none;
 }
 
 .outer-container {
@@ -76,90 +87,99 @@
     border: solid 1px hsl(35, 20, 70);
 
     overflow: hidden;
+}
 
-    .page-content {
-        width: 100%;
-        height: 95%;
-        padding-left: 20px;
-        padding-right: 20px;
+.page-content {
+    width: 100%;
+    height: 95%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: stretch;
+}
 
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        align-items: stretch;
+.page-header {
+    height: 30px;
+    font-size: 100%;
+    text-transform: uppercase;
+    text-align: center;
+    padding-left: 20px;
+    padding-right: 20px;
+}
 
-        .page-header {
-            height: 30px;
-            font-size: 100%;
-            text-transform: uppercase;
-            text-align: center;
-        }
+.page-image {
+    height: 100%;
+    background-size: contain;
+    background-position: center center;
+    background-repeat: no-repeat;
+    padding-left: 20px;
+    padding-right: 20px;
+}
 
-        .page-image {
-            height: 100%;
-            background-size: contain;
-            background-position: center center;
-            background-repeat: no-repeat;
-        }
+.page-text {
+    height: 100%;
+    flex-grow: 1;
+    font-size: 80%;
+    text-align: justify;
+    padding-left: 20px;
+    padding-right: 20px;
+    margin-top: 10px;
+    padding-top: 10px;
+    box-sizing: border-box;
+    border-top: solid 1px hsl(35, 55, 90);
+}
 
-        .page-text {
-            height: 100%;
-            flex-grow: 1;
-            font-size: 80%;
-            text-align: justify;
-            margin-top: 10px;
-            padding-top: 10px;
-            box-sizing: border-box;
-            border-top: solid 1px hsl(35, 55, 90);
-        }
+.page-footer {
+    height: 30px;
+    border-top: solid 1px hsl(35, 55, 90);
+    font-size: 80%;
+    color: hsl(35, 20, 50);
+}
 
-        .page-footer {
-            height: 30px;
-            border-top: solid 1px hsl(35, 55, 90);
-            font-size: 80%;
-            color: hsl(35, 20, 50);
-        }
+.page.--left {
+    /*for left page (property will be added automatically)*/
+    border-right: 0;
+    box-shadow: inset -7px 0 30px -7px rgba(0, 0, 0, 0.4);
+}
+
+.page.--right {
+    /*for right page (property will be added automatically)*/
+    border-left: 0;
+    box-shadow: inset 7px 0 30px -7px rgba(0, 0, 0, 0.4);
+
+    .page-footer {
+        text-align: right;
+    }
+}
+.page.--right + .page-arrow-left.page-nav {
+    display: none;
+}
+.page.--left .page-arrow-right.page-nav {
+    display: none;
+}
+
+.page.hard {
+    /* for hard page*/
+    background-color: hsl(35, 50, 90);
+    border: solid 1px hsl(35, 20, 50);
+}
+
+.page.page-cover {
+    background-color: hsl(35, 45, 80);
+    color: blue; /* hsl(35, 35, 35);*/
+    border: solid 1px hsl(35, 20, 50);
+
+    h2 {
+        text-align: center;
+        padding-top: 50%;
+        font-size: 210%;
     }
 
-    &.--left {
-        /*for left page (property will be added automatically)*/
-        border-right: 0;
-        box-shadow: inset -7px 0 30px -7px rgba(0, 0, 0, 0.4);
+    .page.page-cover-top {
+        box-shadow: inset 0px 0 30px 0px rgba(36, 10, 3, 0.5), -2px 0 5px 2px rgba(0, 0, 0, 0.4);
     }
 
-    &.--right {
-        /*for right page (property will be added automatically)*/
-        border-left: 0;
-        box-shadow: inset 7px 0 30px -7px rgba(0, 0, 0, 0.4);
-
-        .page-footer {
-            text-align: right;
-        }
-    }
-
-    &.hard {
-        /* for hard page*/
-        background-color: hsl(35, 50, 90);
-        border: solid 1px hsl(35, 20, 50);
-    }
-
-    &.page-cover {
-        background-color: hsl(35, 45, 80);
-        color: blue; /* hsl(35, 35, 35);*/
-        border: solid 1px hsl(35, 20, 50);
-
-        h2 {
-            text-align: center;
-            padding-top: 50%;
-            font-size: 210%;
-        }
-
-        &.page-cover-top {
-            box-shadow: inset 0px 0 30px 0px rgba(36, 10, 3, 0.5), -2px 0 5px 2px rgba(0, 0, 0, 0.4);
-        }
-
-        &.page-cover-bottom {
-            box-shadow: inset 0px 0 30px 0px rgba(36, 10, 3, 0.5), 10px 0 8px 0px rgba(0, 0, 0, 0.4);
-        }
+    .page.page-cover-bottom {
+        box-shadow: inset 0px 0 30px 0px rgba(36, 10, 3, 0.5), 10px 0 8px 0px rgba(0, 0, 0, 0.4);
     }
 }

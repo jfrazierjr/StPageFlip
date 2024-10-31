@@ -1371,7 +1371,10 @@ class Flip {
     isPointOnCorners(globalPos) {
         const rect = this.getBoundsRect();
         const pageWidth = rect.pageWidth;
-        const operatingDistance = Math.sqrt(Math.pow(pageWidth, 2) + Math.pow(rect.height, 2)) / 30;
+        const operatingDistance = this.app.getSettings().mouseCornerPageFoldDistance === -1 ||
+            this.app.getSettings().mouseCornerPageFoldDistance === null
+            ? Math.sqrt(Math.pow(pageWidth, 2) + Math.pow(rect.height, 2)) / 5
+            : this.app.getSettings().mouseCornerPageFoldDistance;
         const bookPos = this.render.convertToBook(globalPos);
         return (bookPos.x > 0 &&
             bookPos.y > 0 &&
@@ -1405,13 +1408,13 @@ class UI {
                 if (this.app.getSettings().clickEventClasses.some) {
                     var targetClassList = Array.from(e.target.classList);
                     if (targetClassList.some((value) => value.includes('prev'))) {
-                        this.app.flipNext();
-                        //e.preventDefault();
+                        this.app.flipPrev();
+                        e.preventDefault();
                         return;
                     }
                     if (targetClassList.some((value) => value.includes('next'))) {
-                        this.app.flipPrev();
-                        //e.preventDefault();
+                        this.app.flipNext();
+                        e.preventDefault();
                         return;
                     }
                 }
@@ -1524,7 +1527,7 @@ class UI {
      * Destructor. Remove all HTML elements and all event handlers
      */
     destroy() {
-        if (this.app.getSettings().useMouseEvents)
+        if (this.app.getSettings().useMouseEvents || this.app.getSettings().clickEventClasses.some)
             this.removeHandlers();
         this.distElement.remove();
         this.wrapper.remove();
@@ -1578,7 +1581,8 @@ class UI {
     }
     setHandlers() {
         window.addEventListener('resize', this.onResize, false);
-        if (!this.app.getSettings().useMouseEvents)
+        if (!this.app.getSettings().useMouseEvents &&
+            !this.app.getSettings().clickEventClasses.some)
             return;
         this.distElement.addEventListener('mousedown', this.onMouseDown);
         this.distElement.addEventListener('touchstart', this.onTouchStart);
@@ -2352,6 +2356,7 @@ class Settings {
             showCover: false,
             mobileScrollSupport: true,
             swipeDistance: 30,
+            mouseCornerPageFoldDistance: -1,
             clickEventForward: true,
             useMouseEvents: true,
             showPageCorners: true,

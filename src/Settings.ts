@@ -39,14 +39,17 @@ export interface FlipSetting {
     /** Enable switching to portrait mode */
     usePortrait: boolean;
     /** Initial value to z-index */
+
     startZIndex: number;
     /** If this value is true, the parent element will be equal to the size of the book */
+
     autoSize: boolean;
     /** Shadow intensity (1: max intensity, 0: hidden shadows) */
     maxShadowOpacity: number;
 
     /** If this value is true, the first and the last pages will be marked as hard and will be shown in single page mode */
     showCover: boolean;
+
     /** Disable content scrolling when touching a book on mobile devices */
     mobileScrollSupport: boolean;
 
@@ -57,6 +60,8 @@ export interface FlipSetting {
     useMouseEvents: boolean;
 
     swipeDistance: number;
+
+    mouseCornerPageFoldDistance: number;
 
     /** if this value is true, fold the corners of the book when the mouse pointer is over them. */
     showPageCorners: boolean;
@@ -87,6 +92,7 @@ export class Settings {
         showCover: false,
         mobileScrollSupport: true,
         swipeDistance: 30,
+        mouseCornerPageFoldDistance: -1,
         clickEventForward: true,
         useMouseEvents: true,
         showPageCorners: true,
@@ -100,7 +106,9 @@ export class Settings {
      * @param userSetting
      * @returns {FlipSetting} Сonfiguration object
      */
-    public getSettings(userSetting: Record<string, number | string | boolean>): FlipSetting {
+    public getSettings(
+        userSetting: Record<string, number | string | boolean | Array<string>>
+    ): FlipSetting {
         const result = this._default;
         Object.assign(result, userSetting);
 

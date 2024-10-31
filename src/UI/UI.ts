@@ -71,7 +71,8 @@ export abstract class UI {
      * Destructor. Remove all HTML elements and all event handlers
      */
     public destroy(): void {
-        if (this.app.getSettings().useMouseEvents) this.removeHandlers();
+        if (this.app.getSettings().useMouseEvents || this.app.getSettings().clickEventClasses.some)
+            this.removeHandlers();
 
         this.distElement.remove();
         this.wrapper.remove();
@@ -139,7 +140,11 @@ export abstract class UI {
 
     protected setHandlers(): void {
         window.addEventListener('resize', this.onResize, false);
-        if (!this.app.getSettings().useMouseEvents) return;
+        if (
+            !this.app.getSettings().useMouseEvents &&
+            !this.app.getSettings().clickEventClasses.some
+        )
+            return;
 
         this.distElement.addEventListener('mousedown', this.onMouseDown);
         this.distElement.addEventListener('touchstart', this.onTouchStart);
@@ -181,13 +186,13 @@ export abstract class UI {
             if (this.app.getSettings().clickEventClasses.some) {
                 var targetClassList = Array.from((e.target as HTMLElement).classList);
                 if (targetClassList.some((value) => value.includes('prev'))) {
-                    this.app.flipNext();
-                    //e.preventDefault();
+                    this.app.flipPrev();
+                    e.preventDefault();
                     return;
                 }
                 if (targetClassList.some((value) => value.includes('next'))) {
-                    this.app.flipPrev();
-                    //e.preventDefault();
+                    this.app.flipNext();
+                    e.preventDefault();
                     return;
                 }
             }

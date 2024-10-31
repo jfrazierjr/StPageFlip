@@ -7,8 +7,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
         size: 'fixed', //"stretch",
         disableFlipByClick: true,
-        useMouseEvents: true,
-        showPageCorners: true,
+        useMouseEvents: false,
+        showPageCorners: false,
         maxShadowOpacity: 0.5, // Half shadow intensity
         showCover: true,
         mobileScrollSupport: false, // disable content scrolling on mobile devices
