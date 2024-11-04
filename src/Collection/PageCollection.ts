@@ -288,7 +288,21 @@ export abstract class PageCollection {
             this.render.setRightPage(this.pages[spread[1]]);
         } else {
             if (this.render.getOrientation() === Orientation.LANDSCAPE) {
-                if (spread[0] === this.pages.length - 1) {
+                if (spread[0] === this.pages.length - 1 && !this.isShowCover) {
+                    this.render.setLeftPage(this.pages[spread[0]]);
+                    this.render.setRightPage(null);
+                } else if (
+                    spread[0] === this.pages.length - 1 &&
+                    this.isShowCover &&
+                    this.currentSpreadIndex === 0
+                ) {
+                    this.render.setLeftPage(null);
+                    this.render.setRightPage(this.pages[spread[0]]);
+                } else if (
+                    spread[0] === this.pages.length - 1 &&
+                    this.isShowCover &&
+                    this.currentSpreadIndex != 0
+                ) {
                     this.render.setLeftPage(this.pages[spread[0]]);
                     this.render.setRightPage(null);
                 } else {

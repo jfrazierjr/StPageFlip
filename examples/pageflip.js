@@ -6,13 +6,14 @@ document.addEventListener('DOMContentLoaded', function () {
         height: 700, // base page height
 
         size: 'fixed', //"stretch",
-        disableFlipByClick: true,
-        useMouseEvents: false,
+        disableFlipByClick: false,
+        useMouseEvents: true,
         showPageCorners: false,
+        clickEventForward: false,
         maxShadowOpacity: 0.5, // Half shadow intensity
         showCover: true,
         mobileScrollSupport: false, // disable content scrolling on mobile devices
-        clickEventClasses: ['page-arrow-right', 'page-arrow-left'],
+        //clickEventClasses: ['page-arrow-right', 'page-arrow-left'],
     });
 
     // load pages
